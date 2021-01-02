@@ -1,12 +1,14 @@
-# rule 30
+# rule 30: https://en.wikipedia.org/wiki/Rule_30
+# libraries ----
 library(data.table)
 library(ggplot2)
 
+# functions ----
 #' Function to calculate rule 30
 #'
-#' @param a 
-#' @param b 
-#' @param c 
+#' @param a left neighbour of the cell
+#' @param b actual cell
+#' @param c right neighbour of the cell
 #'
 #' @return
 #' @export
@@ -32,6 +34,7 @@ for(i in c(T, F))
     }
 }
 
+# genuary code ----
 # number of cells (make sure its odd, for better results)
 n <- 211
 
@@ -52,17 +55,23 @@ for (gen in 1:halfway)
     cellRow <- thisRow
 }
 
-# calculate distance from point 0,0 - its gonna be helpful for shading
-ruleData[, dist := sqrt(xAxis ^ 2 + yAxis ^ 2)]
-ruleData[, dist := dist / max(dist)]
+# calculate distance from given point - its gonna be helpful for shading
+givenPoint <- c(0, 0)
+ruleData[, dist := sqrt((xAxis - givenPoint[1]) ^ 2 + (yAxis - givenPoint[2]) ^ 2)]
+ruleData[, dist := sqrt(dist / max(dist))]
+
+# establish colors
+fill0 <- "#000000"
+fill1 <- "#F8F8FF"
 
 # plot the plot ...
 ggplot() + 
-    geom_tile(data = ruleData[cell == 0], aes(x = xAxis, y = yAxis, alpha = 1 - dist), fill = "#14063A") +
-    geom_tile(data = ruleData[cell == 1], aes(x = xAxis, y = yAxis, alpha = dist), fill = "#AA9839") +
+    geom_tile(data = ruleData[cell == 0], aes(x = xAxis, y = yAxis, alpha = dist), fill = fill0) +
+    geom_tile(data = ruleData[cell == 1], aes(x = xAxis, y = yAxis, alpha = 1 - dist), fill = fill1) +
     theme_void() +
     theme(legend.position = "none") + 
     scale_y_reverse() 
 
 # ... and save it
-ggsave()
+dir.create(path = "results/", showWarnings = F)
+ggsave(filename = "results/02_rule30.png", height = 3, width = 6, dpi = 720)
