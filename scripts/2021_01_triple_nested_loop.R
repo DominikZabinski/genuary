@@ -1,12 +1,22 @@
 # // TRIPLE NESTED LOOP
+# libraries ----
 library(data.table)
 library(ggplot2)
-# lightning?? aka random walk?
+
+# generate data ----
+# the main idea is to use random walk, which easily gives double nested loop:
+# first loop: simulation and determine number of steps
+# second loop: loop through steps
+# for the third loop (which is gonna be actually a root loop) I'm gonna use different ranges of angles and add an angle/direction to the step-taking-making phase
+
+# to replicate results
 set.seed(20210101)
+
+# number of simulations for each starting conditions (first loop)
 n <- 50
 plotDataFinal <- rbindlist(
     l = lapply(
-        X = seq(from = pi/2, to = -pi/2, by = -pi/24), 
+        X = seq(from = pi/2, to = -pi/2, by = -pi/24),  # root loop - range of angles
         FUN = function(st){
             plotData <- rbindlist(
                 l = lapply(
@@ -17,7 +27,7 @@ plotDataFinal <- rbindlist(
                         xAxis <- c(0)
                         yAxis <- c(0)
                         lastPoint <- c(0, 0)
-                        for (j in 1:steps)
+                        for (j in 1:steps) # second loop - steps
                         {
                             # for each step
                             # how long is the step
@@ -43,6 +53,7 @@ plotDataFinal <- rbindlist(
 plotDataFinal[, lightFactor := sqrt(x ^ 2 + y ^ 2)]
 plotDataFinal[, lightFactor := lightFactor / max(lightFactor), by = .(angle)]
 
+# plot the plot ...
 ggplot(data = plotDataFinal, mapping = aes(x = x, y = y, group = id, color = lightFactor)) + 
     geom_line(size = .01) +
     facet_wrap(~angle, scales = "free") +
@@ -53,4 +64,7 @@ ggplot(data = plotDataFinal, mapping = aes(x = x, y = y, group = id, color = lig
         legend.position = "none", 
         strip.text = element_blank(), panel.spacing = margin(0, 0, 0, 0)
     )
-ggsave(filename = "D:/pp.png", width = 4, height = 4, dpi = 1440)
+
+# ... and save it
+dir.create(path = "results/", showWarnings = F)
+ggsave(filename = "results/01_triple_nested_loop.png", width = 4, height = 4, dpi = 1440)
