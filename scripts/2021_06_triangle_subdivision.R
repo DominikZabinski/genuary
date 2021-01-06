@@ -170,7 +170,10 @@ ggplot(data = twoRealms, aes(x = x, y = y, group = id, fill = as.factor(id))) +
     geom_polygon() +
     scale_fill_manual(values = myColors) +
     theme_void() + 
-    theme(legend.position = "none", aspect.ratio = 1)
+    theme(
+        legend.position = "none", aspect.ratio = 1, 
+        plot.margin = unit(rep(-10, 4), "pt")
+    )
 
 # save result ----
-ggsave(filename = "results/06_triangle_subdivision.png", height = 3, width = 3, dpi = 720)
+ggsave(filename = "results/06_triangle_subdivision.png", height = 3, width = 3, dpi = 1440)
