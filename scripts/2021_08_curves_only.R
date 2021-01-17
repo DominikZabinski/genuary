@@ -16,7 +16,7 @@ library(ggplot2)
 #' @export
 #'
 #' @examples
-curve_gen <- function(stepLength = 1, numberOfSteps = 24, startingAngle = pi/2, angleChange = pi/32, startingPoint = c(0, 0))
+create_curve <- function(stepLength = 1, numberOfSteps = 24, startingAngle = pi/2, angleChange = pi/32, startingPoint = c(0, 0))
 {
     curveData <- data.table(x = startingPoint[1], y = startingPoint[2])
     lastPoint <- startingPoint
@@ -47,13 +47,13 @@ for (i in 1:numberBreaks)
     }
 }
 
-# create data fro each on point on the curve
+# create data for each on point on the curve
 wholeCurve <- data.table()
 
 for (i in 1:length(wholeCurveParam))
 {
     thisParams <- wholeCurveParam[[i]]
-    thisCurve <- curve_gen(startingAngle = startingAngle, startingPoint = startingPoint, angleChange = thisParams$angleChange, numberOfSteps = thisParams$numberOfSteps, stepLength = thisParams$stepLength)
+    thisCurve <- create_curve(startingAngle = startingAngle, startingPoint = startingPoint, angleChange = thisParams$angleChange, numberOfSteps = thisParams$numberOfSteps, stepLength = thisParams$stepLength)
     startingPoint <- c(thisCurve$x[thisParams$numberOfSteps + 1], thisCurve$y[thisParams$numberOfSteps + 1])
     startingAngle <- startingAngle + thisParams$numberOfSteps * thisParams$angleChange
     wholeCurve <- rbind(wholeCurve, thisCurve)

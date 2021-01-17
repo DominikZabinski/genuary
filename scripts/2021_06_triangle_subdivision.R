@@ -49,7 +49,7 @@ random_point_between_points <- function(p1 = c(0, 0), p2 = c(1, 0), lower = .8, 
 #' @examples
 dist_between_points <- function(p1, p2)
 {
-    sqrt((p1[1]-p2[1])^2 + (p1[2]-p1[2])^2)
+    sqrt((p1[1]-p2[1])^2 + (p1[2]-p2[2])^2)
 }
 
 #' Simple function that basically gets specific columns from given row
