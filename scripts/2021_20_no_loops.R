@@ -29,11 +29,12 @@ ggplot(
     geom_point(shape = 21) +
     scale_color_viridis_c(option = "B") +
     scale_fill_viridis_c(option = "B") +
+    scale_size_continuous(range = c(.1, 3)) +
     theme_void() +
     theme(
-        panel.background = element_rect(fill = "#AA3939"),
+        panel.background = element_rect(fill = "#AA3939", color = "#AA3939"),
         legend.position = "none",
         aspect.ratio = 1, 
-        plot.margin = unit(rep(-10, 4), "pt")
+        plot.margin = unit(rep(0, 4), "pt")
     )
-ggsave(filename = "results/20_no_loops.png", height = 6, width = 6, dpi = 1440)
+ggsave(filename = "results/20_no_loops.png", height = 3, width = 3, dpi = 1440)
