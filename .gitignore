@@ -1,5 +1,7 @@
-.Rproj.user
-.Rhistory
-.RData
-.Ruserdata
-results/**
+*
+!.gitigore
+!scripts/
+!scripts/*.R
+!results/
+!results/*.png
+!README.md
